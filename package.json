@@ -1,5 +1,5 @@
 {
-    "name": "js-runner",
+    "name": "javascript-runner",
     "displayName": "JavaScript Runner",
     "description": "Execute js/ts scripts in the VS Code terminal",
     "version": "1.0.0",

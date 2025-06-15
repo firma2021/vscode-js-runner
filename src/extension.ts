@@ -23,8 +23,6 @@ class JsRunner
 
     private clearTerminal: boolean = true;
 
-    private running: boolean = false;
-
     constructor(private context: vscode.ExtensionContext)
     {
         this.savedArgs = context.globalState.get('js-runner.savedArgs', {});
@@ -37,7 +35,6 @@ class JsRunner
                 if (closedTerminal === this.terminal)
                 {
                     this.terminal = undefined;
-                    this.running = false;
                 }
             })
         );
@@ -91,12 +88,6 @@ class JsRunner
             return;
         }
 
-        if (this.running && this.terminal && this.terminal.exitStatus === undefined)
-        {
-            vscode.window.showWarningMessage('A command is already running in the terminal. Please wait for it to finish.');
-            return;
-        }
-
         this.terminal = this.getOrCreateTerminal();
         this.terminal.show();
 
@@ -112,7 +103,6 @@ class JsRunner
             command += ` ${currentFileArgs}`;
         }
 
-        this.running = true;
         this.terminal.sendText(command);
     }
 
@@ -164,11 +154,6 @@ class JsRunner
 
         this.terminal = vscode.window.createTerminal({
             name: this.terminalName
-        });
-
-        this.terminal.processId.then(() =>
-        {
-            this.running = false;
         });
 
         return this.terminal;
