@@ -1,0 +1,128 @@
+{
+    "name": "js-runner",
+    "displayName": "JavaScript Runner",
+    "description": "Execute js/ts scripts in the VS Code terminal",
+    "version": "1.0.0",
+    "publisher": "firma",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/firma2021/vscode-js-runner"
+    },
+    "icon": "icon.png",
+    "qna": "marketplace",
+    "license": "MIT LICENSE",
+    "engines": {
+        "vscode": "^1.74.0"
+    },
+    "keywords": [
+        "javascript",
+        "typescript",
+        "js",
+        "ts",
+        "execute",
+        "run",
+        "terminal"
+    ],
+    "categories": [
+        "Programming Languages",
+        "Other"
+    ],
+    "activationEvents": [
+        "onLanguage:javascript",
+        "onLanguage:typescript"
+    ],
+    "main": "./dist/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "js-runner.run",
+                "category": "JavaScript Runner",
+                "title": "JavaScript Runner: run script",
+                "icon": "$(play)",
+                "enablement": "(resourceLangId == javascript|| resourceLangId == typescript) && !isInDiffEditor"
+            },
+            {
+                "command": "js-runner.setArgs",
+                "category": "JavaScript Runner",
+                "title": "JavaScript Runner: set arguments",
+                "icon": "$(gear)",
+                "enablement": "(resourceLangId == javascript|| resourceLangId == typescript) && !isInDiffEditor"
+            },
+            {
+                "command": "js-runner.setRuntime",
+                "category": "JavaScript Runner",
+                "title": "JavaScript Runner: set runtime",
+                "icon": "$(tools)",
+                "enablement": "(resourceLangId == javascript|| resourceLangId == typescript) && !isInDiffEditor"
+            },
+            {
+                "command": "js-runner.toggleClear",
+                "category": "JavaScript Runner",
+                "title": "JavaScript Runner: toggle clear terminal",
+                "icon": "$(clear-all)",
+                "enablement": "(resourceLangId == javascript|| resourceLangId == typescript) && !isInDiffEditor"
+            }
+        ],
+
+        "keybindings": [
+            {
+                "command": "js-runner.run",
+                "key": "F5",
+                "enablement": "(resourceLangId == javascript || resourceLangId == typescript) && !isInDiffEditor && !inDebugMode"
+            }
+        ],
+        "menus": {
+            "editor/title/run": [
+                {
+                    "command": "js-runner.run",
+                    "when": "(resourceLangId == javascript || resourceLangId == typescript) && !isInDiffEditor",
+                    "group": "navigation@10"
+                },
+                {
+                    "command": "js-runner.setArgs",
+                    "when": "(resourceLangId == javascript || resourceLangId == typescript) && !isInDiffEditor",
+                    "group": "navigation@10.1"
+                },
+                {
+                    "command": "js-runner.setRuntime",
+                    "when": "(resourceLangId == javascript || resourceLangId == typescript) && !isInDiffEditor",
+                    "group": "navigation@10.2"
+                },
+                {
+                    "command": "js-runner.toggleClear",
+                    "when": "(resourceLangId == javascript || resourceLangId == typescript) && !isInDiffEditor",
+                    "group": "navigation@10.3"
+                }
+            ]
+        }
+    },
+
+    "scripts": {
+        "vscode:prepublish": "npm run package",
+        "compile": "npm run check-types && npm run lint && node esbuild.js",
+        "watch": "npm-run-all -p watch:*",
+        "watch:esbuild": "node esbuild.js --watch",
+        "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+        "package": "npm run check-types && npm run lint && node esbuild.js --production",
+        "compile-tests": "tsc -p . --outDir out",
+        "watch-tests": "tsc -p . -w --outDir out",
+        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "check-types": "tsc --noEmit",
+        "lint": "eslint src",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.74.0",
+        "@types/mocha": "^10.0.10",
+        "@types/node": "20.x",
+        "@typescript-eslint/eslint-plugin": "^8.31.1",
+        "@typescript-eslint/parser": "^8.31.1",
+        "eslint": "^9.25.1",
+        "esbuild": "^0.25.3",
+        "npm-run-all": "^4.1.5",
+        "typescript": "^5.8.3",
+        "@vscode/test-cli": "^0.0.10",
+        "@vscode/test-electron": "^2.5.2"
+    }
+
+}
